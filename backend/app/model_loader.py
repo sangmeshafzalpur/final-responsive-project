@@ -89,6 +89,12 @@ class ModelSingleton:
             if not os.path.exists(MODEL_PATH):
                 raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
             try:
+                tf.config.threading.set_inter_op_parallelism_threads(1)
+                tf.config.threading.set_intra_op_parallelism_threads(1)
+            except Exception:
+                pass
+
+            try:
                 self.model = tf.keras.models.load_model(
                     MODEL_PATH, 
                     compile=False
@@ -100,6 +106,8 @@ class ModelSingleton:
                     custom_objects={'CBAM': CBAM},
                     safe_mode=False
                 )
+            import gc
+            gc.collect()
             logger.info("Model loaded successfully.")
             
             logger.info(f"Loading class names from {CLASS_NAMES_PATH}")
