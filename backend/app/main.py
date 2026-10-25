@@ -1,4 +1,5 @@
 import logging
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -16,8 +17,6 @@ app = FastAPI(
     description="API for Chilli Plant Disease Detection",
     version="1.0.0"
 )
-
-import os
 
 # Configure CORS (allow dynamic origins from env or allow all by default)
 allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "*")
